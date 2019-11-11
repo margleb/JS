@@ -1,28 +1,40 @@
-var john = {
-    fullName: 'John Smith',
-    mass: 110,
-    height: 2.00,
-    calcBMI: function() {
-        this.bmi = this.mass / (this.height * this.height);
-        return this.bmi;
-    }
-}
+/**************************
+* Loops and iteration
+*/
 
-var mark = {
-    fullName: 'Mark Miller',
-    mass: 92,
-    height: 1.95,
-    calcBMI: function() {
-        this.bmi = this.mass / (this.height * this.height);
-        return this.bmi;
-    }
-}
+/**** for loop ****/
+// for (var i = 0; i < 10; i+=2) {
+    // console.log(i);
+// }
 
+var john = ['John', 'Smith', 1990, 'designer', false, 'blue'];
 
-if(john.calcBMI() > mark.calcBMI()) {
-    console.log(john.fullName + ' has a higher BMI of ' + john.bmi);
-} else if (mark.bmi > john.bmi) {
-    console.log(mark.fullName + ' has a higher BMI of ' + mark.bmi);
-} else {
-    console.log('They have the same BMI');
-}
+// for (var i = 0; i < john.length; i++) {
+    // console.log(john[i]);
+// }
+
+/**** while loop ****/
+// var i = 0;
+// while(i < john.length) {
+    // console.log(john[i])
+    // i++;
+// }
+
+/**** continue and break statents ****/
+// var john = ['John', 'Smith', 1990, 'designer', false, 'blue'];
+/** Пропускает то, что не является строкой **/
+//for (var i = 0; i < john.length; i++) {
+//    if (typeof john[i] !== 'string') continue;
+//    console.log(john[i]);
+//}
+
+/** Прерывает скрипт **/
+// for (var i = 0; i < john.length; i++) {
+    // if (typeof john[i] !== 'string') break;
+    // console.log(john[i]);
+// }
+
+// Looping backwards
+for(var i = john.length - 1; i >= 0; i--) {
+    console.log(john[i]);
+} 
