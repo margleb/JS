@@ -1,22 +1,27 @@
-/*  Мутации и принуждения переменных */
+/*  Базовые операторы */
 
-var firstName = 'John'; // string
-var age = 28; // number
+var year, yearJohn, yearMark;
+year = 2020;
+ageJohn = 28;
+ageMark = 33;
 
-// конвертация номера в строку
-console.log(firstName + ' ' + age);
+// Math operators
+yearJohn = year - 28;
+yearMark = year - 33;
 
-// обьявление перменных
-var job, isMarriad
-// приравниваем переменные
-job = 'teacher';
-isMarried = 'false';
-// bool конвертируется в строку
-alert(firstName + ' is a ' + age + ' year old' + job + '. Is he married? ' + isMarried);
+console.log(yearJohn);
 
-// Variable mutation
-age = 'twenty eight';
-job = 'driver';
+console.log(year + 2);
+console.log(year * 2);
+console.log(year / 2);
 
-var lastName = prompt('What is his last Name?');
-console.log(firstName + ' ' + lastName);
+// Logical operators
+var johnOlder = ageJohn > ageMark;
+console.log(johnOlder);
+
+// typeof operator
+console.log(typeof johnOlder);
+console.log(typeof ageJohn);
+console.log(typeof 'Mark is older than John');
+var x;
+console.log(typeof x);
