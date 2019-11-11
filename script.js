@@ -1,26 +1,28 @@
-/**********************
-* Objects and methods
-*/
-
-// john object
 var john = {
-    firstName: 'John',
-    lastName: 'Smith',
-    birthYear: 1992,
-    family: ['Jane', 'Mark', 'Bob', 'Emily'],
-    job: 'teacher',
-    isMarried: false,
-    // метод
-    calcAge: function() {
-        // доступ до св-ва данного обьекта через this
-        // установка нового св-ва age
-        this.age =  2018 - this.birthYear;
+    fullName: 'John Smith',
+    mass: 110,
+    height: 2.00,
+    calcBMI: function() {
+        this.bmi = this.mass / (this.height * this.height);
+        return this.bmi;
     }
-};
+}
 
-// доступ до метода
-// console.log(john.calcAge(1990));
+var mark = {
+    fullName: 'Mark Miller',
+    mass: 92,
+    height: 1.95,
+    calcBMI: function() {
+        this.bmi = this.mass / (this.height * this.height);
+        return this.bmi;
+    }
+}
 
-// инициализируем метод calcAge(); 
-john.calcAge();
-console.log(john);
+
+if(john.calcBMI() > mark.calcBMI()) {
+    console.log(john.fullName + ' has a higher BMI of ' + john.bmi);
+} else if (mark.bmi > john.bmi) {
+    console.log(mark.fullName + ' has a higher BMI of ' + mark.bmi);
+} else {
+    console.log('They have the same BMI');
+}
