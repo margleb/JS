@@ -7,7 +7,7 @@ GAME RULES:
 - The first player to reach 100 points on GLOBAL score wins the game
 */
 
-var scores, roundScore, activePlayer, dice;
+var scores, roundScore, activePlayer;
 
 scores = [0, 0];
 roundScrore = 0;
@@ -16,21 +16,39 @@ activePlayer = 1;
 // Math - обьект, математических исчеслений
 // floor() - метод, для округления
 // random() - метод, случайное число
-dice = Math.floor(Math.random() * 6) + 1;
-console.log(dice);
+// console.log(dice);
 
 // Document - обьект для DOM манипуляций
 // QuerySelector - метод определения элемента на странице
 // textContent - св-во изменения текста на странице
 // innerHTML - cв-во добавляет html в DOM
-document.querySelector('#current-' + activePlayer).textContent = dice
+// document.querySelector('#current-' + activePlayer).textContent = dice
 // document.querySelector('#current-' + activePlayer).innerHTML = '<em>' + dice + '</em>'
 
 // Без присваивания выводит значение элемента html
-var x = document.querySelector('#score-0').textContent;
-console.log(x);
+// var x = document.querySelector('#score-0').textContent;
+// console.log(x);
 
 // изменение свой-ва элемента
 // style - метод, css
 // property - cв-во style
 document.querySelector('.dice').style.display = 'none';
+// получить элемент по id
+document.getElementById('score-0').textContent = '0';
+document.getElementById('score-1').textContent = '0';
+document.getElementById('current-0').textContent = '0';
+document.getElementById('current-1').textContent = '0';
+
+// Стандартные события
+// https://developer.mozilla.org/en-US/docs/Web/Events
+// Коллбэк функция - функция вызываемая другой функцией
+document.querySelector('.btn-roll').addEventListener('click', function() {
+    // 1. Random number
+    var dice = Math.floor(Math.random() * 6) + 1;
+    // 2. Display the result
+    var diceDOM = document.querySelector('.dice');
+    diceDOM.style.display = 'block';
+    // src - cвойство изменения scr атрибута
+    diceDOM.src = 'dice-' + dice + '.png';
+    // 3. Update the round scrore if the rolled number is not one
+});
