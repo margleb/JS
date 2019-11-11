@@ -1,23 +1,27 @@
-var scoreJohn = (89 + 120 + 103) / 3;
-var scoreMike = (129 + 94 + 123) / 3;
-var scoreMary = (97 + 134 + 105) / 3;
-console.log(scoreJohn, scoreMike, scoreMary);
+/******************
+* Functions
+*/
 
-if(scoreJohn > scoreMike && scoreJohn > scoreMary) {
-    console.log('John\'s team wins with ' + scoreJohn + ' points');
-} else if (scoreMike > scoreJohn && scoreMike > scoreMary) {
-    console.log('Mike\'s team wins with ' + scoreMike + ' points');
-} else if (scoreMary > scoreJohn && scoreMary > scoreMike) {
-    console.log('Mary\'s team wins with ' + scoreMary + ' points');
-} else {
-    console.log('There is a draw');
+function calculateAge(birthYear) {
+    return 2019 - birthYear;
 }
 
+var ageJohn = calculateAge(1990);
+var ageMike = calculateAge(1948);
+var ageJane = calculateAge(1969);
+console.log(ageJohn, ageMike, ageJane);
 
-/*if(scoreJohn > scoreMike) {
-    console.log('John\s team wins with ' + scoreJohn + ' points'); 
-} else if(scoreMike > scoreJohn) {
-    console.log('Mike\'s teams wins with ' + scoreMike + ' points');
-} else {
-    console.log('There is a draw');
-} */
+
+function yearsUntilRetirement(year, firstName) {
+    var age = calculateAge(year);
+    var retirement = 65 - age;
+    if(retirement > 0) {
+        console.log(firstName + ' retires in ' + retirement + ' years.');
+    } else {
+        console.log(firstName + ' is already retired.');
+    }
+}
+
+yearsUntilRetirement(1990, 'John');
+yearsUntilRetirement(1948, 'John');
+yearsUntilRetirement(1969, 'Jane');
