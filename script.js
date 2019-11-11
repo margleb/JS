@@ -10,8 +10,8 @@ GAME RULES:
 var scores, roundScore, activePlayer;
 
 scores = [0, 0];
-roundScrore = 0;
-activePlayer = 1;
+roundScore = 0;
+activePlayer = 0;
 
 // Math - обьект, математических исчеслений
 // floor() - метод, для округления
@@ -51,4 +51,26 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     // src - cвойство изменения scr атрибута
     diceDOM.src = 'dice-' + dice + '.png';
     // 3. Update the round scrore if the rolled number is not one
+    if (dice !== 1) {
+        // Добавляем счет
+        roundScore += dice;
+        document.querySelector('#current-' + activePlayer).textContent = roundScore;
+    } else {
+        // Следующий игрок
+        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+        roundScore = 0;
+        document.getElementById('current-0').textContent = '0';
+        document.getElementById('current-1').textContent = '0';
+        
+        // удалить класс
+        // document.querySelector('.player-0-panel').classList.remove('active');
+        // добавить класс
+        // document.querySelector('.player-1-panel').classList.add('active');
+        
+        // удалить/ добавить класс
+        document.querySelector('.player-0-panel').classList.toggle('active');
+        document.querySelector('.player-1-panel').classList.toggle('active');
+        // удалить кубик при переключении игрока
+        document.querySelector('.dice').style.display = 'none';
+    }
 });
