@@ -8,48 +8,52 @@ GAME RULES:
 */
 
 // глобальные переменные
-var scores, roundScore, activePlayer;
+var scores, roundScore, activePlayer, gamePlaying;
 
 init(); // инициализация
 
 // cобытие клик на rolle dice
 document.querySelector('.btn-roll').addEventListener('click', function() {
-    // Случайное число
-    var dice = Math.floor(Math.random() * 6) + 1;
-    // Селектор для кубика
-    var diceDOM = document.querySelector('.dice');
-    // Отображение кубика display block
-    diceDOM.style.display = 'block';
-    // cмена изображения кубика
-    diceDOM.src = 'dice-' + dice + '.png';
-    // Если выпадшее число не равно 1
-    if (dice == 1) {
-        nextPlayer(); // Следующий игрок
-    } else {
-        roundScore += dice; // доавляем к счету
-        document.querySelector('#current-' + activePlayer).textContent = roundScore;
+    if(gamePlaying) { // если игра продолжается
+        // Случайное число
+        var dice = Math.floor(Math.random() * 6) + 1;
+        // Селектор для кубика
+        var diceDOM = document.querySelector('.dice');
+        // Отображение кубика display block
+        diceDOM.style.display = 'block';
+        // cмена изображения кубика
+        diceDOM.src = 'dice-' + dice + '.png';
+        // Если выпадшее число не равно 1
+        if (dice == 1) {
+            nextPlayer(); // Следующий игрок
+        } else {
+            roundScore += dice; // доавляем к счету
+            document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        }
     }
-   
 });
 
 // событие клик на hold
 document.querySelector('.btn-hold').addEventListener('click', function() {
-    // Добавить счет к игроку
-    scores[activePlayer] += roundScore;
-    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    if(gamePlaying) { // если игра продолжается
+        // Добавить счет к игроку
+        scores[activePlayer] += roundScore;
+        document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
     
-   // Если счет игрока превысил 20
-   if(scores[activePlayer] >= 20) {
-       // обьявляем игрока победителем
-       document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
-       // cкрываем отображение кубика
-       document.querySelector('.dice').style.display = 'none';
-       // добавляем победителю класс winner и удаляем активный класс
-       document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
-       document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
-   } else {
-       nextPlayer(); // Cледующий игрок      
-   }
+       // Если счет игрока превысил 20
+       if(scores[activePlayer] >= 20) {
+           // обьявляем игрока победителем
+           document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+           // cкрываем отображение кубика
+           document.querySelector('.dice').style.display = 'none';
+           // добавляем победителю класс winner и удаляем активный класс
+           document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+           document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+           gamePlaying = false // игра окончена
+       } else {
+           nextPlayer(); // Cледующий игрок      
+       }       
+    }
 });
 
 // событие при нажатии на кнопку new game
@@ -74,6 +78,7 @@ function init() {
 scores = [0,0]; // cчет
 activePlayer = 0; // активный игрок
 roundScore = 0;  // обнулить счет
+gamePlaying = true; // игра активна
 // по умолчанию кубик отключен
 document.querySelector('.dice').style.display = 'none';
 // счет по умолчанию равен 0
