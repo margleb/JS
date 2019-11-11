@@ -57,20 +57,45 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
         document.querySelector('#current-' + activePlayer).textContent = roundScore;
     } else {
         // Следующий игрок
-        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-        roundScore = 0;
-        document.getElementById('current-0').textContent = '0';
-        document.getElementById('current-1').textContent = '0';
-        
-        // удалить класс
-        // document.querySelector('.player-0-panel').classList.remove('active');
-        // добавить класс
-        // document.querySelector('.player-1-panel').classList.add('active');
-        
-        // удалить/ добавить класс
-        document.querySelector('.player-0-panel').classList.toggle('active');
-        document.querySelector('.player-1-panel').classList.toggle('active');
-        // удалить кубик при переключении игрока
-        document.querySelector('.dice').style.display = 'none';
+        nextPlayer();
     }
 });
+
+document.querySelector('.btn-hold').addEventListener('click', function() {
+   // Добавить текущий счет к глобальному счету
+    scores[activePlayer] += roundScore;
+   // Обновить UI
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    
+   // Проверить выиграл ли пользователь игру
+   if(scores[activePlayer] >= 20) {
+       document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+       document.querySelector('.dice').style.display = 'none';
+       document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+       document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+   } else {
+       // Cледующий игрок
+       nextPlayer();       
+   }
+    
+});
+
+
+function nextPlayer() {
+    // Следующий игрок
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    roundScore = 0;
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+        
+    // удалить класс
+    // document.querySelector('.player-0-panel').classList.remove('active');
+    // добавить класс
+    // document.querySelector('.player-1-panel').classList.add('active');
+        
+    // удалить/ добавить класс
+    document.querySelector('.player-0-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+    // удалить кубик при переключении игрока
+    document.querySelector('.dice').style.display = 'none';
+}
