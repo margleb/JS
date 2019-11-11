@@ -1,14 +1,19 @@
-var massMark = 78; // kg
-var heighMark = 1.69; // meters
+/*************************
+* If / else statements
+*/
 
-var massJohn = 92;
-var heightJohn = 1.95;
+var firstName = 'John';
+var civilStatus = 'single';
 
-var BMIMark = massMark / (heighMark * heighMark);
-var BMIJohn = massJohn / (heightJohn * heightJohn);
-
-if(BMIMark > BMIJohn) {
-    console.log('Mark\'s BMI is higher than John\'s');
+if(civilStatus == 'married') {
+    console.log(firstName + ' is married!');
 } else {
-    console.log('John\' BMI is higher than Marks\'s');
+    console.log(firstName + ' will hopefully marry soon');
+}
+
+var isMarried = true;
+if(isMarried) {
+    console.log(firstName + ' is married!');
+} else {
+    console.log(firstName + ' will hopefully marry soon');
 }
