@@ -1,39 +1,44 @@
-///////////////////////////////////////
-// Lecture: Scoping
+/////////////////////////////////
+// Lecture: the this keyword
 
+// возворащает window object
+// console.log(this);
 
-// First scoping example
+/*
+calculateAge(1985);
 
-/* scope chane */
-/* Функции имеют доступ до переменных, 
-вложенных функция и до глобальных переменных */
-//var a = 'Hello!';
-//first();
-//function first() {
-//    var b = 'Hi!';
-//    second();
-//    function second() {
-//        var c = 'Hey!';
-//        console.log(a + b + c);
-//    }
-//}
+function calculateAge(year) {
+    console.log(2016 - year);
+    // ключевое слово this изначально всегда указывает на window обьект
+    console.log(this);
+}
+*/
 
-/* execution stack */
-var a = 'Hello!';
-first();
-function first() {
-    var b = 'Hi!';
-    second();
-    function second() {
-        var c = 'Hey!';
-        third();
+var john = {
+    name: 'John',
+    yearOfBirth: 1990,
+    calculateAge: function() {
+        /** в данном случае, this указывает на john обьект **/
+        console.log(this);
+        /** укзаывает на год рождения **/
+        console.log(2016 - this.yearOfBirth);
+        // function innerFunction() {
+            /** внутри регулярных функций this всегда указывает на обьект window **/
+            // console.log(this);
+        // }
+        // innerFunction();
     }
 }
 
-function third() {
-    var d = 'John';
-    // функция не имеет доступа до переменной c возвращает underfined
-    console.log(c);
-    // имеет доступ до глобальной переменно a и локальной d
-    console.log(a + d);
-}
+john.calculateAge();
+
+// обьект mike
+var mike = {
+    name: 'Mike',
+    yearOfBirth: 1984
+};
+
+// копируем функцию calculateAge() из 
+// классам john в класс mike;
+mike.calculateAge = john.calculateAge;
+mike.calculateAge();
