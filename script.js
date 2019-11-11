@@ -7,110 +7,90 @@ GAME RULES:
 - The first player to reach 100 points on GLOBAL score wins the game
 */
 
+// глобальные переменные
 var scores, roundScore, activePlayer;
 
-// добавляем переменные
-init();
+init(); // инициализация
 
-// Math - обьект, математических исчеслений
-// floor() - метод, для округления
-// random() - метод, случайное число
-// console.log(dice);
-
-// Document - обьект для DOM манипуляций
-// QuerySelector - метод определения элемента на странице
-// textContent - св-во изменения текста на странице
-// innerHTML - cв-во добавляет html в DOM
-// document.querySelector('#current-' + activePlayer).textContent = dice
-// document.querySelector('#current-' + activePlayer).innerHTML = '<em>' + dice + '</em>'
-
-// Без присваивания выводит значение элемента html
-// var x = document.querySelector('#score-0').textContent;
-// console.log(x);
-
-
-// Стандартные события
-// https://developer.mozilla.org/en-US/docs/Web/Events
-// Коллбэк функция - функция вызываемая другой функцией
+// cобытие клик на rolle dice
 document.querySelector('.btn-roll').addEventListener('click', function() {
-    // 1. Random number
+    // Случайное число
     var dice = Math.floor(Math.random() * 6) + 1;
-    // 2. Display the result
+    // Селектор для кубика
     var diceDOM = document.querySelector('.dice');
+    // Отображение кубика display block
     diceDOM.style.display = 'block';
-    // src - cвойство изменения scr атрибута
+    // cмена изображения кубика
     diceDOM.src = 'dice-' + dice + '.png';
-    // 3. Update the round scrore if the rolled number is not one
-    if (dice !== 1) {
-        // Добавляем счет
-        roundScore += dice;
-        document.querySelector('#current-' + activePlayer).textContent = roundScore;
+    // Если выпадшее число не равно 1
+    if (dice == 1) {
+        nextPlayer(); // Следующий игрок
     } else {
-        // Следующий игрок
-        nextPlayer();
+        roundScore += dice; // доавляем к счету
+        document.querySelector('#current-' + activePlayer).textContent = roundScore;
     }
+   
 });
 
+// событие клик на hold
 document.querySelector('.btn-hold').addEventListener('click', function() {
-   // Добавить текущий счет к глобальному счету
+    // Добавить счет к игроку
     scores[activePlayer] += roundScore;
-   // Обновить UI
     document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
     
-   // Проверить выиграл ли пользователь игру
+   // Если счет игрока превысил 20
    if(scores[activePlayer] >= 20) {
+       // обьявляем игрока победителем
        document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+       // cкрываем отображение кубика
        document.querySelector('.dice').style.display = 'none';
+       // добавляем победителю класс winner и удаляем активный класс
        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
    } else {
-       // Cледующий игрок
-       nextPlayer();       
+       nextPlayer(); // Cледующий игрок      
    }
-    
 });
+
+// событие при нажатии на кнопку new game
+document.querySelector('.btn-new').addEventListener('click', init);
 
 
 function nextPlayer() {
-    // Следующий игрок
+    // cменяем активного игрока
     activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-    roundScore = 0;
+    roundScore = 0; // обнуляем счет
+    // удаляем счет из красных областей
     document.getElementById('current-0').textContent = '0';
     document.getElementById('current-1').textContent = '0';
-        
-    // удалить класс
-    // document.querySelector('.player-0-panel').classList.remove('active');
-    // добавить класс
-    // document.querySelector('.player-1-panel').classList.add('active');
-        
-    // удалить/ добавить класс
+    // удалить/добавить активный класс у игроков
     document.querySelector('.player-0-panel').classList.toggle('active');
     document.querySelector('.player-1-panel').classList.toggle('active');
-    // удалить кубик при переключении игрока
+    // скрыть кубик при переключении игрока
     document.querySelector('.dice').style.display = 'none';
-}
-
-document.querySelector('.btn-new').addEventListener('click', init);
+};
 
 function init() {
-scores = [0,0];
-activePlayer = 0;
-roundScore = 0;   
-// изменение свой-ва элемента
-// style - метод, css
-// property - cв-во style
+scores = [0,0]; // cчет
+activePlayer = 0; // активный игрок
+roundScore = 0;  // обнулить счет
+// по умолчанию кубик отключен
 document.querySelector('.dice').style.display = 'none';
-// получить элемент по id
+// счет по умолчанию равен 0
 document.getElementById('score-0').textContent = '0';
 document.getElementById('score-1').textContent = '0';
+// текущий счет по умлочанию равен 0
 document.getElementById('current-0').textContent = '0';
 document.getElementById('current-1').textContent = '0';
-document.getElementById('name-0').textConent = 'Player 1';
-document.getElementById('name-1').textConent = 'Player 2';
+// заголовки по умолчанию равны
+document.getElementById('name-0').textContent = 'Player 1';
+document.getElementById('name-1').textContent = 'Player 2';
+// класс winner при сбросе игры удаляется
 document.querySelector('.player-0-panel').classList.remove('winner');
 document.querySelector('.player-1-panel').classList.remove('winner');
+// класс active по умолчанию удаляется
 document.querySelector('.player-0-panel').classList.remove('active');
 document.querySelector('.player-1-panel').classList.remove('active');
-// добавляем класс active по дефолту первому игроку
+// первому игрку выставляется класс active
 document.querySelector('.player-0-panel').classList.add('active');
 }
