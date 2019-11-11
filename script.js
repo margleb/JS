@@ -9,9 +9,8 @@ GAME RULES:
 
 var scores, roundScore, activePlayer;
 
-scores = [0, 0];
-roundScore = 0;
-activePlayer = 0;
+// добавляем переменные
+init();
 
 // Math - обьект, математических исчеслений
 // floor() - метод, для округления
@@ -29,15 +28,6 @@ activePlayer = 0;
 // var x = document.querySelector('#score-0').textContent;
 // console.log(x);
 
-// изменение свой-ва элемента
-// style - метод, css
-// property - cв-во style
-document.querySelector('.dice').style.display = 'none';
-// получить элемент по id
-document.getElementById('score-0').textContent = '0';
-document.getElementById('score-1').textContent = '0';
-document.getElementById('current-0').textContent = '0';
-document.getElementById('current-1').textContent = '0';
 
 // Стандартные события
 // https://developer.mozilla.org/en-US/docs/Web/Events
@@ -98,4 +88,29 @@ function nextPlayer() {
     document.querySelector('.player-1-panel').classList.toggle('active');
     // удалить кубик при переключении игрока
     document.querySelector('.dice').style.display = 'none';
+}
+
+document.querySelector('.btn-new').addEventListener('click', init);
+
+function init() {
+scores = [0,0];
+activePlayer = 0;
+roundScore = 0;   
+// изменение свой-ва элемента
+// style - метод, css
+// property - cв-во style
+document.querySelector('.dice').style.display = 'none';
+// получить элемент по id
+document.getElementById('score-0').textContent = '0';
+document.getElementById('score-1').textContent = '0';
+document.getElementById('current-0').textContent = '0';
+document.getElementById('current-1').textContent = '0';
+document.getElementById('name-0').textConent = 'Player 1';
+document.getElementById('name-1').textConent = 'Player 2';
+document.querySelector('.player-0-panel').classList.remove('winner');
+document.querySelector('.player-1-panel').classList.remove('winner');
+document.querySelector('.player-0-panel').classList.remove('active');
+document.querySelector('.player-1-panel').classList.remove('active');
+// добавляем класс active по дефолту первому игроку
+document.querySelector('.player-0-panel').classList.add('active');
 }
