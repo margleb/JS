@@ -8,7 +8,7 @@ GAME RULES:
 */
 
 // глобальные переменные
-var scores, roundScore, activePlayer, gamePlaying;
+var scores, roundScore, activePlayer, gamePlaying, lastDice;
 
 init(); // инициализация
 
@@ -23,13 +23,20 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
         diceDOM.style.display = 'block';
         // cмена изображения кубика
         diceDOM.src = 'dice-' + dice + '.png';
-        // Если выпадшее число не равно 1
-        if (dice == 1) {
+        // если текущий и предыдущий кубик 6
+        if(dice === 6 && lastDice == 6) {
+            scores[activePlayer] = 0; // обнулить счет
+            document.querySelector('#score-' + activePlayer).textContent = '0';
+            nextPlayer(); // Следующий игрок
+        // Если выпадшее число не равно 1    
+        } else if (dice == 1) {
             nextPlayer(); // Следующий игрок
         } else {
             roundScore += dice; // доавляем к счету
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
         }
+        // предыдущее значение кубика
+        lastDice = dice;
     }
 });
 
