@@ -1,27 +1,35 @@
-/*  Базовые операторы */
+/* 
+ * Приоритет операторов
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
+*/
 
-var year, yearJohn, yearMark;
-year = 2020;
-ageJohn = 28;
-ageMark = 33;
+var now = 2018;
+var yearJohn = 1989;
+var fullAge = 18;
 
-// Math operators
-yearJohn = year - 28;
-yearMark = year - 33;
+// Multiple operators
+var isFullAge = now - yearJohn >= fullAge; // true
+console.log(isFullAge);
 
-console.log(yearJohn);
+// Grouping
+var ageJohn = now - yearJohn;
+var ageMark = 35;
+var average = (ageJohn + ageMark) / 2;
+console.log(average);
 
-console.log(year + 2);
-console.log(year * 2);
-console.log(year / 2);
+// Multiple assignments
+// оператор присвоения работает справа на лево
+var x, y;
+x = y = (3 + 5) * 4 - 6; // 8 * 4 - 6 // 32 - 6 // 26
+console.log(x, y);
 
-// Logical operators
-var johnOlder = ageJohn > ageMark;
-console.log(johnOlder);
-
-// typeof operator
-console.log(typeof johnOlder);
-console.log(typeof ageJohn);
-console.log(typeof 'Mark is older than John');
-var x;
-console.log(typeof x);
+// More operators
+// x = x * 2;
+x *= 2;
+console.log(x);
+x += 10;
+console.log(x);
+// x = x + 1;
+// x +=1;
+x++;
+x--;
