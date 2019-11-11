@@ -1,19 +1,23 @@
-/**************************
-* Truthy and Falsy values and equality operators
-*/
+var scoreJohn = (89 + 120 + 103) / 3;
+var scoreMike = (129 + 94 + 123) / 3;
+var scoreMary = (97 + 134 + 105) / 3;
+console.log(scoreJohn, scoreMike, scoreMary);
 
-// falsy values: undefinded, null, 0, '', NaN
-// truthy values: NOT falsy values
-
-var height = 0;
-
-if(height || height === 0) {
-    console.log('Variable is defined');
+if(scoreJohn > scoreMike && scoreJohn > scoreMary) {
+    console.log('John\'s team wins with ' + scoreJohn + ' points');
+} else if (scoreMike > scoreJohn && scoreMike > scoreMary) {
+    console.log('Mike\'s team wins with ' + scoreMike + ' points');
+} else if (scoreMary > scoreJohn && scoreMary > scoreMike) {
+    console.log('Mary\'s team wins with ' + scoreMary + ' points');
 } else {
-    console.log('Variable has NOT been defined');
+    console.log('There is a draw');
 }
 
-// Equality operators
-if(height == '23') {
-    console.log('The == operator does type coercion!');
-}
+
+/*if(scoreJohn > scoreMike) {
+    console.log('John\s team wins with ' + scoreJohn + ' points'); 
+} else if(scoreMike > scoreJohn) {
+    console.log('Mike\'s teams wins with ' + scoreMike + ' points');
+} else {
+    console.log('There is a draw');
+} */
