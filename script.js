@@ -47,8 +47,12 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
         scores[activePlayer] += roundScore;
         document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
     
+        // получаем значение от пользователя из инпута
+        var input = document.querySelector('.final-score').value;        
+        // Undefined, 0, null или "" приравниваются к false
+        var winningScore = input ? input : 100; // счет победы
        // Если счет игрока превысил 20
-       if(scores[activePlayer] >= 20) {
+       if(scores[activePlayer] >= winningScore) {
            // обьявляем игрока победителем
            document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
            // cкрываем отображение кубика
