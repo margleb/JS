@@ -1,37 +1,25 @@
-/******************
-* Arrays
-*/
+function tipCalculator(bill) {
+    var percentage;
+    if(bill < 50) {
+        percentage = .2;
+    } else if(bill >= 50 && bill < 200) {
+        percentage = .2;
+    } else {
+        percentage = .1;
+    }
+    return percentage * bill;
+}
 
-// Initialize new array
-var names = ['John', 'Mark', 'Jane'];
-var years = new Array(1990, 1969, 1948);
-
-console.log(names[0]);
-console.log(names.length);
-
-// Mutate array date
-names[1] = 'Ben'
-// последний элемент в массиве
-names[names.length] = 'Mary';
-console.log(names);
+console.log(tipCalculator(10));
 
 
-// Different data types
-var john = ['John', 'Smith', 1990, 'teacher', false];
-// добавляет элемент в конец массива
-john.push('blue');
-// добавляет элемент в начало массива
-john.unshift('Mr.');
-console.log(john);
+var bills = [124, 48, 268];
+var tips = [tipCalculator(bills[0]),
+            tipCalculator(bills[1]),
+            tipCalculator(bills[2])];
 
-// удаляет элемент из начала массива
-john.pop();
-// удаляет элемент из конца массива
-john.shift()
-console.log(john);
-// возращает позицию элемента в массиве
-// если элемента нет в массиве, то верент -1
-console.log(john.indexOf(1990));
+var finalValues = [bills[0] + tips[0],
+                   bills[1] + tips[1],
+                   bills[2] + tips[2]];
 
-var isDesigner = john.indexOf('designer') === -1 ? 'John is NOT a designer' : 'John IS a designer';
-console.log(isDesigner);
+console.log(tips, finalValues);
