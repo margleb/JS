@@ -1,42 +1,87 @@
 //////////////////////////
-// Lecture: Closures
+// Lecture: Bind, call and apply
 
-function retirement(retirementAge) {
-    var a = ' years left until retirement.';
-    return function(yearOfBirth) {
-        var age = 2016 - yearOfBirth;
-        console.log((retirementAge - age) + a);
+/** 
+* call()/apply() функции используются для немедленного вызова функции.
+* bind() может вызываться в случаях, когда функция должна быть вызывана позже, в определенных случаях когда это полезно
+**/
+
+
+// обьект
+var john = {
+    name: 'John',
+    age: 26,
+    job: 'teacher',
+    presentation: function(style, timeOfDay) {
+        if (style === 'formal') {
+           console.log('Good ' + timeOfDay + ', Ladies and gentlemen! I\'m ' + this.name + ', I\'m a ' + this.job + ', and I\'m ' + this.age + ' years old.');
+        } else if (style === 'friendly') {
+           console.log('Hey! What\'s up? I\'m ' + this.name + ', I\'m a ' + this.job + ' and I\'m ' + this.age + ' years old. Have a nice ' + timeOfDay + '.');
+        }
     }
 }
 
-// первая функция
-var retirmentUS = retirement(66);
-var retirmentGermany = retirement(65);
-var retirmentIceland = retirement(67);
-// вторая анонимная функция
-retirmentGermany(1990);
-retirmentUS(1990);
-retirmentIceland(1990);
+// обьект
+var emily = {
+    name: 'Emily',
+    age: 35,
+    job: 'designer'
+}
 
-// переменная a остается в памяти, 
-// даже после возвращения внутренней функции
-// retirement(66)(1990);
+// вызов метода
+// john.presentation('formal', 'morning');
 
-// параметр job можно будет использовать,
-// даже псле того, как анониманя функция
-// будет возвращена
-function interviewQuestion(job) {
-    return function(name) {
-          if(job === 'designer') {
-            console.log(name + ', can you pls explain what UX desig');  
-          } else if (job === 'teacher') {
-            console.log('What subject do you teach, ' + name + '?');  
-          } else {
-            console.log('Hello ' + name + ', what do you do?');  
-          }
-        }
+
+/** 
+* первый параемтр call() устанавливает значение this, котрое является обьектом, для которого вызывается функция
+* остальные параметры являются параметрами функции по умолчанию
+**/
+john.presentation.call(emily, 'friendly', 'afternoon');
+
+/** 
+* первый параемтр apply() устанавливает значение this, котрое является обьектом, для которого вызывается функция
+* в качестве второго аргумента принимается массив аргументов функции
+**/
+john.presentation.apply(emily, ['friendly', 'afternoon'])
+
+/** 
+* первый параемтр bind() устанавливает значение this, котрое является обьектом, для дальнейшего его вызова
+* остальные параметры указываются как параметры для вызова основной функции
+**/
+var johnFriendly = john.presentation.bind(john, 'friendly');
+// вызов функций
+johnFriendly('morning');
+johnFriendly('night');
+
+var emilyFormal = john.presentation.bind(emily, 'formal');
+// вызов функций
+emilyFormal('afternoon');
+
+/**********************************************/
+
+// массив годов
+var years = [1990, 1965, 1937, 2005, 1998];
+
+// колбак функция
+function arrayCalc(arr, fn) {
+    var arrRes = []; 
+    for (var i = 0; i < arr.length; i++) {
+        // push - вставляет элементы в конец массива
+        // колбек функция
+        arrRes.push(fn(arr[i]));
     }
-    
-// параметр job остается даже после возвращения
-// анонимной функции
-interviewQuestion('teacher')('John');
+    return arrRes;
+}
+
+function calculateAge(el) {
+    return 2016 - el;
+}
+
+function isFullAge(limit, el) {
+    return el >= limit;
+}
+
+var ages = arrayCalc(years, calculateAge); // массив с возрастами
+var fullJapan = arrayCalc(ages, isFullAge.bind(this, 20));
+console.log(ages);
+console.log(fullJapan);
