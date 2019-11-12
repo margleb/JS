@@ -1,87 +1,60 @@
-//////////////////////////
-// Lecture: Bind, call and apply
+/////////////////////////////
+// CODING CHALLENGE
+
+
+/*
+--- Let's build a fun quiz game in the console! ---
+1. Build a function constructor called Question to describe a question. A question should include:
+a) question itself
+b) the answers from which the player can choose the correct one (choose an adequate data structure here, array, object, etc.)
+c) correct answer (I would use a number for this)
+2. Create a couple of questions using the constructor
+3. Store them all inside an array
+4. Select one random question and log it on the console, together with the possible answers (each question should have a number) (Hint: write a method for the Question objects for this task).
+5. Use the 'prompt' function to ask the user for the correct answer. The user should input the number of the correct answer such as you displayed it on Task 4.
+6. Check if the answer is correct and print to the console whether the answer is correct ot nor (Hint: write another method for this).
+7. Suppose this code would be a plugin for other programmers to use in their code. So make sure that all your code is private and doesn't interfere with the other programmers code (Hint: we learned a special technique to do exactly that).
+*/
 
 /** 
-* call()/apply() функции используются для немедленного вызова функции.
-* bind() может вызываться в случаях, когда функция должна быть вызывана позже, в определенных случаях когда это полезно
+Данная конструкция IIFE, позволяет "защитить" код от возможной перезаписи переменных, 
+(или какого либо взаимодействия) с его функционалом извне.
 **/
+(function() {
+function Question(question, answers, correct) {
+    this.question = question;
+    this.answers = answers;
+    this.correct = correct;
+};
 
-
-// обьект
-var john = {
-    name: 'John',
-    age: 26,
-    job: 'teacher',
-    presentation: function(style, timeOfDay) {
-        if (style === 'formal') {
-           console.log('Good ' + timeOfDay + ', Ladies and gentlemen! I\'m ' + this.name + ', I\'m a ' + this.job + ', and I\'m ' + this.age + ' years old.');
-        } else if (style === 'friendly') {
-           console.log('Hey! What\'s up? I\'m ' + this.name + ', I\'m a ' + this.job + ' and I\'m ' + this.age + ' years old. Have a nice ' + timeOfDay + '.');
-        }
+// prototype chain
+Question.prototype.displayQuestion = function() {
+    console.log(this.question);
+    for (var i = 0; i < this.answers.length; i++) {
+        console.log(i + ': ' + this.answers[i]);
     }
 }
 
-// обьект
-var emily = {
-    name: 'Emily',
-    age: 35,
-    job: 'designer'
-}
+// проверка на корректность вопроса
+Question.prototype.checkAnswer = function(ans) {
+    if (answer == this.correct) {
+        console.log('Correct answer!');
+    } else {
+    console.log('Wrong answer. Try again!');
 
-// вызов метода
-// john.presentation('formal', 'morning');
-
-
-/** 
-* первый параемтр call() устанавливает значение this, котрое является обьектом, для которого вызывается функция
-* остальные параметры являются параметрами функции по умолчанию
-**/
-john.presentation.call(emily, 'friendly', 'afternoon');
-
-/** 
-* первый параемтр apply() устанавливает значение this, котрое является обьектом, для которого вызывается функция
-* в качестве второго аргумента принимается массив аргументов функции
-**/
-john.presentation.apply(emily, ['friendly', 'afternoon'])
-
-/** 
-* первый параемтр bind() устанавливает значение this, котрое является обьектом, для дальнейшего его вызова
-* остальные параметры указываются как параметры для вызова основной функции
-**/
-var johnFriendly = john.presentation.bind(john, 'friendly');
-// вызов функций
-johnFriendly('morning');
-johnFriendly('night');
-
-var emilyFormal = john.presentation.bind(emily, 'formal');
-// вызов функций
-emilyFormal('afternoon');
-
-/**********************************************/
-
-// массив годов
-var years = [1990, 1965, 1937, 2005, 1998];
-
-// колбак функция
-function arrayCalc(arr, fn) {
-    var arrRes = []; 
-    for (var i = 0; i < arr.length; i++) {
-        // push - вставляет элементы в конец массива
-        // колбек функция
-        arrRes.push(fn(arr[i]));
     }
-    return arrRes;
 }
 
-function calculateAge(el) {
-    return 2016 - el;
-}
+var q1 = new Question('Is JavaScript the coolest programming language in the world?', ['Yes', 'No'], 0);
+var q2 = new Question('What is the name of this course\'s teacher?', ['John', 'Micheal','Jonas'], 2);
+var q3 = new Question('What does best descript coding?', ['Boring', 'Hard', 'Fun', 'Tediuos'], 2);
 
-function isFullAge(limit, el) {
-    return el >= limit;
-}
+var questions = [q1,q2,q3];
 
-var ages = arrayCalc(years, calculateAge); // массив с возрастами
-var fullJapan = arrayCalc(ages, isFullAge.bind(this, 20));
-console.log(ages);
-console.log(fullJapan);
+var n = Math.floor(Math.random() * questions.length);
+questions[n].displayQuestion();
+
+// parseInt - конвертирует строку в int
+var answer = parseInt(prompt('Please select the correct anwser.'));
+questions[n].checkAnswer(answer);    
+})();
