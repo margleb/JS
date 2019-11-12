@@ -1,32 +1,28 @@
 //////////////////////////
-// Lecture: Functions returning functions
+// Lecture: IIFE
 
-function interviewQuestion(job) {
-    if(job === 'designer') {
-        return function(name) {
-            console.log(name + ', can you pls explain what UX design is?');
-        }
-    } else if (job === 'teacher') {
-        return function(name) {
-            console.log('What subject do you teach, ' + name + '?');
-        }
-    } else {
-        return function(name) {
-            console.log('Hello ' + name + ', what do you do?');
-        }
-    }
+/* IIFE (Immediately Invoked Function Expression) это JavaScript функция, которая выполняется сразу же после того, как она была определена. */
+
+/*
+function game() {
+    var score = Math.random() * 10;
+    console.log(score >= 5); 
 }
+game();
+*/
 
-// сохраняем функцию в соответствии с работой
-var teacherQuestion = interviewQuestion('teacher');
-var designerQuestion = interviewQuestion('designer');
-// возращаем текст вопроса
-teacherQuestion('John');
-designerQuestion('John');
-designerQuestion('Jane');
-designerQuestion('Mark');
+(function() {
+    var score = Math.random() * 10;
+    console.log(score >= 5); 
+})();
+// undefined
+// console.log(score);
 
-// вызывается функция фнути функции
-interviewQuestion('teacher')('Mark');
+// с передачей параметра
+(function(goodLuck) {
+    var score = Math.random() * 10;
+    console.log(score >= 5 - goodLuck); 
+})(5);
+
 
 
