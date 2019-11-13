@@ -29,30 +29,42 @@ var UIController = (function() {
 // Global App Controller
 var controller = (function(budgetCtrl, UICtrl) {
     
-    var DOM = UICtrl.getDOMstrings();
+    var setupEventListeners = function() {
+        var DOM = UICtrl.getDOMstrings();
+        
+        // событие при клике на кнопку
+        document.querySelector(DOM.inputВtn).addEventListener('click', ctrlAddItem);
+
+        // событие при нажатии на кнопку на клавиатуре
+        document.addEventListener('keypress', function(event) {
+            // witch для старых браузеров
+            // 13 - кнопка enter
+            if(event.keyCode === 13 || event.witch == 13) {
+                ctrlAddItem();
+            }
+        });
+    };
+    
+    
     
     var ctrlAddItem = function() {
        // 1. Get the field input data
        var input = UICtrl.getInput();
-       console.log(input);
         
        // 2. Add the item to the budget controller
        // 3. Add the item to the UI
        // 4. Calculate the budget
        // 5. Display the budget on the UI
-    }
+    };
     
-    // событие при клике на кнопку
-    document.querySelector(DOM.inputВtn).addEventListener('click', ctrlAddItem);
-    
-    // событие при нажатии на кнопку на клавиатуре
-    document.addEventListener('keypress', function(event) {
-        // witch для старых браузеров
-        // 13 - кнопка enter
-        if(event.keyCode === 13 || event.witch == 13) {
-            ctrlAddItem();
+    return {
+        init: function() {
+            console.log('Application has started.');
+            setupEventListeners();
         }
-        
-    })
+    };
     
 })(budgetController, UIController);
+
+// инициализация при запуске приложения
+controller.init();
