@@ -1,26 +1,23 @@
-// Lecture: Strings
+// Lecture Arrow function
 
-let firstName = 'John';
-let lastName = 'Smith';
-const yearOfBirth = 1990;
-
-function calcAge(year) {
-    return 2016 - year;
-}
+const years = [1990, 1965, 1982, 1937];
 
 // ES5
-console.log('This is ' + firstName + ' ' + lastName + '. He was born in ' + yearOfBirth + '. Today, he is ' + calcAge(yearOfBirth) + ' years old');
+var ages5 = years.map(function(el) {
+    return 2016 - el;
+});
+console.log(ages5);
 
 // ES6
-console.log(`This is ${firstName} ${lastName}. He was born in ${yearOfBirth}. Today he is ${calcAge(yearOfBirth)} years old.`);
+let ages6 = years.map(el => 2016 - el);
+console.log(ages6);
 
-// методы включенные в ES6
-const n = `${firstName} ${lastName}`;
-// проверка, начинается ли строка с J
-console.log(n.startsWith('J'));
-// проверка, заканчивается ли строка на th
-console.log(n.endsWith('th'));
-// проверка, есть ли в середине строки
-console.log(n.includes(' '));
-// количество повторений
-console.log(`${firstName} `.repeat(5));
+ages6 = years.map((el, index) => `Age element ${index + 1}: ${2016 - el}.`);
+console.log(ages6);
+
+ages6 = years.map((el, index) => {
+   const now = new Date().getFullYear();
+   const age = now - el;
+   return `Age element ${index + 1}: ${age}.`;
+});
+console.log(ages6);
