@@ -1,18 +1,26 @@
-// Lecture: Blocks and IIFEs
+// Lecture: Strings
 
-// ES6
-{
-    const a = 1;
-    let b = 2;
-    var c = 3;
+let firstName = 'John';
+let lastName = 'Smith';
+const yearOfBirth = 1990;
+
+function calcAge(year) {
+    return 2016 - year;
 }
 
-// console.log(a + b);
-console.log(c);
-
 // ES5
-(function() {
-    var c = 3;
-})();
+console.log('This is ' + firstName + ' ' + lastName + '. He was born in ' + yearOfBirth + '. Today, he is ' + calcAge(yearOfBirth) + ' years old');
 
-// console.log(c);
+// ES6
+console.log(`This is ${firstName} ${lastName}. He was born in ${yearOfBirth}. Today he is ${calcAge(yearOfBirth)} years old.`);
+
+// методы включенные в ES6
+const n = `${firstName} ${lastName}`;
+// проверка, начинается ли строка с J
+console.log(n.startsWith('J'));
+// проверка, заканчивается ли строка на th
+console.log(n.endsWith('th'));
+// проверка, есть ли в середине строки
+console.log(n.includes(' '));
+// количество повторений
+console.log(`${firstName} `.repeat(5));
