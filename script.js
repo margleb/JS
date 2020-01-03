@@ -1,46 +1,25 @@
 /////////
-// Lecture: Rest parameters
+// Lecture: Default parameters
 
 /*
 // ES5
-function isFullAge5() {
-    // console.log(arguments);
-    var argsArr = Array.prototype.slice.call(arguments);
-    argsArr.forEach(function(cur) {
-       console.log((2016 - cur) >= 18); 
-    });
+function SmithPerson(firstName, yearOfBirth, lastName, nationality) {
+    lastName === undefined ? lastName = 'Smith' : lastName = lastName;
+    nationality === undefined ? nationality = 'american': nationality = nationality;
+    this.firstName = firstName;
+    this.yearOfBirth = lastName;
+    this.lastName = yearOfBirth;
+    this.nationality = nationality;
 }
-
-// isFullAge5(1990, 1999, 1965);
-// isFullAge5(1990, 1999, 1965, 2016, 1987);
-
-
-// ES6
-// трансформирует параметры в массив и вставляет их в функцию
-function isFullAge6(...years) {
-    years.forEach(cur => console.log((2016 - cur) >= 18));
-}
-
-isFullAge6(1990, 1999, 1965, 2016, 1987);
 */
 
-
-function isFullAge5(limit) {
-    // второй параметр call позволяет вычленить взять в массив параметры без учета первого
-    var argsArr = Array.prototype.slice.call(arguments, 1);
-    argsArr.forEach(function(cur) {
-       console.log((2016 - cur) >= limit);
-    });
-}
-
-// isFullAge5(10, 1990, 1999, 1965);
-// isFullAge5(1990, 1999, 1965, 2016, 1987);
-
-
 // ES6
-// трансформирует параметры в массив и вставляет их в функцию
-function isFullAge6(limit, ...years) {
-    years.forEach(cur => console.log((2016 - cur) >= limit));
+function SmithPerson(firstName, yearOfBirth, lastName = 'Smith', nationality = 'american') {
+    this.firstName = firstName;
+    this.yearOfBirth = lastName;
+    this.lastName = yearOfBirth;
+    this.nationality = nationality;
 }
 
-isFullAge6(16, 1990, 1999, 1965, 2016, 1987);
+var john = new SmithPerson('John', 1990);
+var emily = new SmithPerson('Emily', 1983, 'Diaz', 'spanish');
