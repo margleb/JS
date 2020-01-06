@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Section 2: JavaScript Language Basics</title>
-    </head>
-
-    <body>
-        <h1>Section 2: JavaScript Language Basics</h1>
-    </body>
-    <script src="script.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Asynchronous JavaScript</title>
+</head>
+<body>
+    <h1>Asynchronous JavaScript</h1>
+    <script>
+        /** Смысл асинхронного кода заключается в том, что он выполняется не поэтапно,
+        а через определенные периоды времени (например, отложенные timeOut) **/
+        var second = () => {
+          // выполнение кода через 2 сек
+          setTimeout(() => {
+              console.log('Hi!');
+          }, 2000);
+        }
+        var first = () => {
+            console.log('Hello there!');
+            second();
+            console.log('The end');
+        }
+        first();
+    </script>
+</body>
 </html>
