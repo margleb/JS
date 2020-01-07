@@ -9,31 +9,61 @@
 <body>
     <h1>Asynchronous JavaScript</h1>
     <script>
-        /*** Создаем симуляцию получения "рецептов" от сервиса ***/
-        function getRecepy() {
-            // получаем id рецептов
-            setTimeout(() => {
-                var recId = [553, 221, 321, 432];
-                // получаем конкретного автора рецепта
-                setTimeout((id) => {
-                    var rec1 = {
-                        publisher: 'John',
-                        title: 'How to cook a cake'
-                    }
-                    console.log(`${id}: ${rec1.title}`);
-                    // получаем другую статью по данному пользователю
-                    setTimeout( publisher => {
-                        var rec2 = {
-                            title: 'How to cook a pizza',
-                            publisher: 'John'
-                        }
-                        console.log(rec2.title);
-                    }, 1000, rec1.publisher);
-                }, 1000, recId[2]); // передаем id в качестве аргумента
-            }, 1500);
-        };
+        /****
+        1. Cоздаем Promise обьект, с имитацией получения от сервера ID рецептов
+           - В качестве аргумента для функции resolve массив произвольных ID
+           - В метод then(), аргумент IDs и console.log(IDs)
+        2. Имитируем состояние ошибки, добавляем обработчик catch
+        3. Cоздаем метод получения заголовка и автора статьи, возращающий обьект Promise
+           - В качестве аргумента resolve передаем строку с id и загловоком статьи
+           - 1ый then возращает определенный созданный метод (заголовок/статья) с Ids[2]
+        4. Cоздаем метод, получающий заголовок другой статьи текущего автора
+           - В качестве аргумента 2ой then возращает метод (заголовок другой статьи) с передачей в качестве аргумента автора статьи
+        *****/
         
-        getRecepy();
+        const IDs = new Promise((resolve, rejected) => {
+          setTimeout(() => {
+              return resolve([125, 144, 332]);
+          }, 1000);  
+        });
+        
+        const Recepie = (ID) => {
+            return new Promise((resolve, rejected) => {
+               setTimeout((ID) => {
+                   var obj = {
+                       title: 'Как приготовить пирог',
+                       publisher: 'Глеб'
+                   }
+                   resolve(`${ID}: ${obj.title}`);
+               }, 1000, ID);
+            });
+        }
+        
+        const Related = (publisher) => {
+            return new Promise((resolve, rejected) => {
+                setTimeout((publisher) => {
+                    var obj = {
+                        title: 'Как приготовить пиццу',
+                        publisher: 'Глеб'
+                    }
+                    resolve(`${publisher}: ${obj.title}`);
+                }, 1000, publisher);
+            });
+        }
+        
+        //console.log(IDs);
+        IDs.then((IDs) => {
+            console.log(IDs);
+            return Recepie(IDs[2]);
+        }).then((ID) => {
+            console.log(ID);
+            return Related('Глеб');
+        }).then((related) => {
+            console.log(related);
+        }).catch(() => {
+            console.log('Ошибка');
+        });
+        
     </script>
 </body>
 </html>
