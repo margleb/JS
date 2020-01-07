@@ -10,29 +10,39 @@
     <h1>Asynchronous JavaScript</h1>
     <script>
         /****
-        1. С помочью функции fetch() получаем данные по ссылке
-           - https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits
-        2. Используем then() для обработки полученных данных (преобразуем в json)
-        3. Используем then() для выделения определенных данных
-        4. Используем catch() для обработки ошибок
-        5. Оборачиваем в функцию, с передаечей параметра локации
+        1. Cоздаем async функцию, получающую значение от ресурса:
+           - https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/
+        2. Преобразуем в json() формат а также вычленяем данные с помочью wait
+        3. Выводим в консоль название города и его текущую погоду
+        4. Для обработки ошибок, используем конструкцию try/catch
+        5. Демонстрируем, что вернуть полученные данные, можно только с помочью метода then
         ****/
         
-        function getWeather(woeid) {
-            fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`)
-            .then(result => {
-                return result.json();
-            }).then(data => {
-                const city = data.title;
-                const tempurature = data.consolidated_weather[0].the_temp;
-                console.log(`Погода в ${city} сейчас ${tempurature} цельсия`);
-            }).catch(error => console.log(error));
+        async function getWeatherAS(woeid) {
+            try {
+                const result = await fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`);
+                const data = await result.json();
+                let city = data.title;
+                let curTemp = data.consolidated_weather[0].the_temp;
+                let tomorowTemp = data.consolidated_weather[1].the_temp;
+                console.log(`Погода в городе ${city} cегодня ${curTemp}, а вчера ${tomorowTemp}`);
+                
+                // данные о погоде по городу
+                return data;
+                
+            } catch(error) {
+                
+                alert(error);
+                
+            }
         }
         
         // London
-        getWeather(44418)
+        getWeatherAS(44418).then(data => {
+           console.log(data); 
+        });
         // San Francisco
-        getWeather(2487956)
+        getWeatherAS(2487956)
         
     </script>
 </body>
