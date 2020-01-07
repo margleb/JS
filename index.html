@@ -10,52 +10,29 @@
     <h1>Asynchronous JavaScript</h1>
     <script>
         /****
-        1. Создаем async функцию с await переменными обьектов Promise
-        2. Возращаем одну из переменных из функции async с помочью метода then
-        *****/
+        1. С помочью функции fetch() получаем данные по ссылке
+           - https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits
+        2. Используем then() для обработки полученных данных (преобразуем в json)
+        3. Используем then() для выделения определенных данных
+        4. Используем catch() для обработки ошибок
+        5. Оборачиваем в функцию, с передаечей параметра локации
+        ****/
         
-        const IDs = new Promise((resolve, rejected) => {
-          setTimeout(() => {
-              return resolve([125, 144, 332]);
-          }, 1000);  
-        });
-        
-        const Recepie = (ID) => {
-            return new Promise((resolve, rejected) => {
-               setTimeout((ID) => {
-                   var obj = {
-                       title: 'Как приготовить пирог',
-                       publisher: 'Глеб'
-                   }
-                   resolve(`${ID}: ${obj.title}`);
-               }, 1000, ID);
-            });
+        function getWeather(woeid) {
+            fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`)
+            .then(result => {
+                return result.json();
+            }).then(data => {
+                const city = data.title;
+                const tempurature = data.consolidated_weather[0].the_temp;
+                console.log(`Погода в ${city} сейчас ${tempurature} цельсия`);
+            }).catch(error => console.log(error));
         }
         
-        const Related = (publisher) => {
-            return new Promise((resolve, rejected) => {
-                setTimeout((publisher) => {
-                    var obj = {
-                        title: 'Как приготовить пиццу',
-                        publisher: 'Глеб'
-                    }
-                    resolve(`${publisher}: ${obj.title}`);
-                }, 1000, publisher);
-            });
-        }
-        
-        
-        async function Recepielog() {
-            var one = await IDs;
-            console.log(one);
-            var two = await Recepie(one[2]);
-            console.log(two);
-            var three = await Related('Глеб');
-            console.log(three);
-            return `${three}. Возращено из Recepielog `;
-        }
-        
-        Recepielog().then(result => console.log(result));
+        // London
+        getWeather(44418)
+        // San Francisco
+        getWeather(2487956)
         
     </script>
 </body>
