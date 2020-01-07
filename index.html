@@ -10,15 +10,8 @@
     <h1>Asynchronous JavaScript</h1>
     <script>
         /****
-        1. Cоздаем Promise обьект, с имитацией получения от сервера ID рецептов
-           - В качестве аргумента для функции resolve массив произвольных ID
-           - В метод then(), аргумент IDs и console.log(IDs)
-        2. Имитируем состояние ошибки, добавляем обработчик catch
-        3. Cоздаем метод получения заголовка и автора статьи, возращающий обьект Promise
-           - В качестве аргумента resolve передаем строку с id и загловоком статьи
-           - 1ый then возращает определенный созданный метод (заголовок/статья) с Ids[2]
-        4. Cоздаем метод, получающий заголовок другой статьи текущего автора
-           - В качестве аргумента 2ой then возращает метод (заголовок другой статьи) с передачей в качестве аргумента автора статьи
+        1. Создаем async функцию с await переменными обьектов Promise
+        2. Возращаем одну из переменных из функции async с помочью метода then
         *****/
         
         const IDs = new Promise((resolve, rejected) => {
@@ -51,18 +44,18 @@
             });
         }
         
-        //console.log(IDs);
-        IDs.then((IDs) => {
-            console.log(IDs);
-            return Recepie(IDs[2]);
-        }).then((ID) => {
-            console.log(ID);
-            return Related('Глеб');
-        }).then((related) => {
-            console.log(related);
-        }).catch(() => {
-            console.log('Ошибка');
-        });
+        
+        async function Recepielog() {
+            var one = await IDs;
+            console.log(one);
+            var two = await Recepie(one[2]);
+            console.log(two);
+            var three = await Related('Глеб');
+            console.log(three);
+            return `${three}. Возращено из Recepielog `;
+        }
+        
+        Recepielog().then(result => console.log(result));
         
     </script>
 </body>
