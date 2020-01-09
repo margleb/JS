@@ -1,30 +1,27 @@
 // Global app controller
 
 /***
-1.Cоздаем архитектуру проекта MVC:
-  - Модель src/models/Search.js
-  - Контроллер index.js
-  - Представление src/models/SearchViews.js
-2.Импортируем данные в контроллер из модели/представления
-  - из Search любую строку
-  - из SearchViews константу, функции-константы (добавляем в начале export)
-    - создаем функцию add c помочью "Стрелочной функции"
-    - создаем функцию multiply c помочью "Стрелочной функции"
-    - константу id
-3.Используем для импорта в контроллер 'as' и фигурные скобки {}
-4.Используем для импорта оператор * и получаем доступ через обьект
-    - приравниваем к переменной через 'as'
+1. Регистриуемся на сервисе
+   - API http://forkify-api.herokuapp.com/
+2. Устанавливаем axios --save и подключем его
+3. Cоздаем async функцию getRecepie()
+4. Создаем константы proxy/url/query/key
+5. Возращаем данные о рецептах в соответствии с запросом
+   - используем await
+6. Обрабатываем вывод ошибок try/catch
 ***/
 
-// из модели Search
-import str from './model/Search';
+var axios = require('axios');
 
-// из представления SearchView
-// import {add as a, multiply as m, ID} from './views/SearchView';
+async function getRecepie(query) {
+    const url = `https://forkify-api.herokuapp.com/api/search?q=${query}`;
+    try {
+        let dataRec = await axios(url);
+        let Recepies = dataRec.data.recipes;
+        console.log(Recepies);   
+    } catch(error) {
+        alert(error);
+    }
+}
 
-// c помочью *
-import * as SearchView from './views/SearchView';
-
-
-console.log(`3 + 5 = ${SearchView.add(3,5)}; 3 * 5 = ${SearchView.multiply(3,5)}; ID = ${SearchView.ID}`);
-console.log(str);
+getRecepie('pizza');
