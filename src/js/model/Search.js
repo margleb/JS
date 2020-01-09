@@ -19,7 +19,7 @@ export default class Search {
         try {
             const dataRec = await axios(url);
             this.result = dataRec.data.recipes;
-            console.log(this.result);
+            // console.log(this.result);
         } catch(error) {
             alert(error);
         }
