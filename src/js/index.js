@@ -2,7 +2,7 @@
 
 import Search from './model/Search';
 import * as SearchView from './views/SearchView';
-import {DOMElements} from './views/base';
+import {DOMElements, renderLoader, cleanLoader} from './views/base';
 
 // обьект состояния
 const state = {}
@@ -19,12 +19,14 @@ async function getSearch() {
     // подготовоить UI для результата
     SearchView.clearInput();
     SearchView.clearResults();
+    renderLoader(DOMElements.searchRes);
      
     // ищем результат
     await state.search.getRecepie();
        
     // показываем результат в UI
     // return console.log(state.search.result);
+    cleanLoader();   
     SearchView.renderResults(state.search.result);
        
    }
