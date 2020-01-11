@@ -11,7 +11,7 @@ export default class Search {
             this.result = dataRec.data.recipes;
             // console.log(this.result);
         } catch(error) {
-            alert(error);
+            alert(`1ая ошибка search ${error}`);
         }
     }   
 }

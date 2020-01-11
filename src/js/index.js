@@ -1,3 +1,16 @@
+/***
+    1. Cоздаем cлушателей событий (массивом):
+       - отслеживание состояния изменения хеша (hashchange)
+       - отслеживание состояния перезагрузки браузера (loader)
+    2. Создаем функцию getRecepie();
+       - получаем ID хеша (window.location.hash) и удаляем # вначале (функция replace());
+       - если есть ID, то
+         - создаем новый обьект recepiе в обьекте состояния state
+         - получаем данные о рецепте (НЕ ЗАБЫТЬ AWAIT);
+         - calcTime/calcService
+    3. Cоздать try/catch для getSearch / getRecepie
+***/
+
 // Global app controller
 
 import Search from './model/Search';
@@ -24,13 +37,16 @@ async function getSearch() {
     SearchView.clearResults();
     renderLoader(DOMElements.searchRes);
      
-    // ищем результат
-    await state.search.getRecepie();
-       
-    // показываем результат в UI
-    // return console.log(state.search.result);
-    cleanLoader();   
-    SearchView.renderResults(state.search.result);
+    try {
+        // ищем результат
+        await state.search.getRecepie();
+        // показываем результат в UI
+        cleanLoader();   
+        SearchView.renderResults(state.search.result);        
+    } catch(error) {
+        alert(`2ая ошибка search ${error}`);
+        cleanLoader();
+    }
        
    }
 }
@@ -52,7 +68,26 @@ DOMElements.resPages.addEventListener('click', (event) => {
 
 // RECIPE CONTROLLER
 
-const recipe = new Recipe(47746);
-// console.log(recipe);
-recipe.getRecepiе();
-console.log(recipe);
+const getRecepie = async () => {
+    const ID = window.location.hash.replace('#', '');
+    if(ID) {
+        // экземпляр класса recepie
+        state.recepie = new Recipe(ID);
+        
+        try {
+            // получаем по API рецепт
+            await state.recepie.getRecepiе();
+            // расчитываем время + кол-во порций
+            state.recepie.calcTime();
+            state.recepie.calcServings();
+            // рендерим recepie
+            console.log(state.recepie);
+        } catch(error) {
+            alert(`2ая ошибка recipe ${error}`);
+        }
+        
+    }
+}
+
+// ['hashchange'].forEeach((event) => window.addEventListener(event, getRecepie));
+window.addEventListener('hashchange', getRecepie);

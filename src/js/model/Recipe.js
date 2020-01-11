@@ -1,18 +1,3 @@
-/***
-// API 47746
-http://forkify-api.herokuapp.com/
-
-1. Импортируем библиотеку axios
-2. Cоздаем класс Recipe
-   - в конструктор передаем id
-   - Cоздаем метод getRecepiе
-     - получаем данные конкретного рецепта по ID
-     - заносим в обьект осн. данные по рецепту
-   - Создаем метод calcTime (высчитываем время приготовления блюда)
-   - Создаем метод calcServings (кол-во порций) 
-3. Импортируем Search модель в index.js как Search контроллера
-***/
-
 import axios from 'axios';
 
 export default class Recipe {
@@ -28,13 +13,13 @@ export default class Recipe {
         this.img = recipe.data.recipe.publisher_url;
         this.ingredients = recipe.data.recipe.ingredients;
       } catch(error) {
-        alert(error);
+        alert(`1ая ошибка recipe ${error}`);
       }
     };
     calcTime() {
         const numIng = this.ingredients.length;
         const periods = Math.ceil(numIng / 3);
-        this.time = periods * 15;
+       this.time = periods * 15;
     };
     calcServings() {
       this.servings = 4;  
