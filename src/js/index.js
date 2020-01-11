@@ -38,3 +38,11 @@ DOMElements.searchBtn.addEventListener('click', (event) => {
    getSearch();
 });
 
+DOMElements.resPages.addEventListener('click', (event) => {
+   var btn = event.target.closest('.btn-inline');
+   if(btn) {
+    var pageNum = parseInt(btn.dataset.npb, 10);
+    SearchView.clearResults();
+    SearchView.renderResults(state.search.result, pageNum);
+   }
+});
