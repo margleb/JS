@@ -1,11 +1,14 @@
 // Global app controller
 
 import Search from './model/Search';
+import Recipe from './model/Recipe';
 import * as SearchView from './views/SearchView';
 import {DOMElements, renderLoader, cleanLoader} from './views/base';
 
 // обьект состояния
 const state = {}
+
+// SEARCH CONTROLLER
 
 async function getSearch() {
    // получить query из view
@@ -46,3 +49,10 @@ DOMElements.resPages.addEventListener('click', (event) => {
     SearchView.renderResults(state.search.result, pageNum);
    }
 });
+
+// RECIPE CONTROLLER
+
+const recipe = new Recipe(47746);
+// console.log(recipe);
+recipe.getRecepiе();
+console.log(recipe);
