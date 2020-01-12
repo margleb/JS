@@ -1,16 +1,3 @@
-/***
-    1. Cоздаем cлушателей событий (массивом):
-       - отслеживание состояния изменения хеша (hashchange)
-       - отслеживание состояния перезагрузки браузера (loader)
-    2. Создаем функцию getRecepie();
-       - получаем ID хеша (window.location.hash) и удаляем # вначале (функция replace());
-       - если есть ID, то
-         - создаем новый обьект recepiе в обьекте состояния state
-         - получаем данные о рецепте (НЕ ЗАБЫТЬ AWAIT);
-         - calcTime/calcService
-    3. Cоздать try/catch для getSearch / getRecepie
-***/
-
 // Global app controller
 
 import Search from './model/Search';
@@ -26,6 +13,7 @@ const state = {}
 async function getSearch() {
    // получить query из view
    var query = SearchView.getInput();
+   // var query = 'pizza'; // TESTING
     
    if(query) {
        
@@ -57,6 +45,12 @@ DOMElements.searchBtn.addEventListener('click', (event) => {
    getSearch();
 });
 
+// TESTING
+// window.addEventListener('load', (event) => {
+//   event.preventDefault();
+//   getSearch();
+// });
+
 DOMElements.resPages.addEventListener('click', (event) => {
    var btn = event.target.closest('.btn-inline');
    if(btn) {
@@ -74,9 +68,13 @@ const getRecepie = async () => {
         // экземпляр класса recepie
         state.recepie = new Recipe(ID);
         
+        // TESTING
+        // window.r = state.recepie;
+        
         try {
-            // получаем по API рецепт
+            // получаем по API рецепт и парсим ингридиенты
             await state.recepie.getRecepiе();
+            state.recepie.parseIngredients();
             // расчитываем время + кол-во порций
             state.recepie.calcTime();
             state.recepie.calcServings();
