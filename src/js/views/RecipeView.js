@@ -1,19 +1,66 @@
 /***
-1. Создаем RecipeView
-     - функция createIngredient
-       - возращаем html код ингридиента
-     - экспортируемая функция renderRecepie
-       - markup html (шаблон рецепта)
-       - проходим циклом (map) список ингридиентов (исп. join для соединения)
-       - выводим в шаблон данные + insert "afterbegin"
-     - функция очищения clearRecepie();
-     - создаем массив units, включающий в себя unitsShort(деструктором...) + 'kg', 'g')
-2. Добавляем в контроллер Search + renderLoader/clearLoader
+- устанавливаем библиотеку fraction.js npm i fractional --save
+  - https://github.com/infusion/Fraction.js
+- создаем функцию formatCount
+  - если мы имеем count
+    - c помочью деструктора [inc, dec] опр. 2 переменных
+      - конвертируем count в строку (toString()) и разделяем (split()) точкой
+      - используем map и parseInt для конвертации в номер
+    - если нет десятичных(dec), возращаешьм count
+    - если целое число (int) равно 0
+      - исп.библиотку fraction (new Fraction(count))
+      - return `${fr.numerator}/${fr.denominator}` // 1/2 = 0.5
+    - иначе 
+      - исп.библиотку fraction (new Fraction(count - int))
+      - return `${int} ${fr.numerator}/${fr.denominator}`
+  - возращем '?'
+
+- создаем функцию highlightSelector (подсветка выд. рецепта)
+  - с помочью Array.from выбираем все results__link
+    - c помочью forEach удаляем класс classList.remove(results_link--active)
+  - document.querySelector(`a[href*="#${id}"]`).classList.add('results_link--active')
+  
+- в контроллере добавляем в UI вызов функции
+  if(state.search) searchView.highlightSelector(id);
+
 ***/
 
 
+import { Fraction } from 'fractional';
 import {DOMElements} from './base';
 
+
+export const highlightSelector = (id) => {
+    
+  const resultsArr = Array.from(document.querySelectorAll(".results__link"));
+ 
+  resultsArr.forEach(res => {
+    res.classList.remove("results__link--active");
+  });
+ 
+  const item = document.querySelector(`.results__link[href*="${id}"]`);
+ 
+  if (item) {
+    item.classList.add("results__link--active");
+  }
+}
+
+
+const formatCount = (count) => {
+    if(count) {
+        
+        const [int, dec] = count.toString().split('.').map(el => parseInt(el, 10));
+        if(!dec) return count;
+        if (int === 0) {
+            const fr = new Fraction(count);
+            return `${fr.numerator}/${fr.denominator}`
+        } else {
+            let fr = new Fraction(count - int);
+            return `${int} ${fr.numerator}/${fr.denominator}`;
+        }
+        return '?';
+    }
+}
 
 export const clearRecepie = () => {
    DOMElements.recipe.innerHTML = ''; 
@@ -25,7 +72,7 @@ const createIngredient = (recepie) => `
    <svg class="recipe__icon">
       <use href="img/icons.svg#icon-check"></use>
    </svg>
-   <div class="recipe__count">${recepie.count}</div>
+   <div class="recipe__count">${formatCount(recepie.count)}</div>
    <div class="recipe__ingredient">
       <span class="recipe__unit">${recepie.unit}</span>
       ${recepie.ingredient}

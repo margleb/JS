@@ -69,6 +69,7 @@ const getRecepie = async () => {
         // Подготавливаем UI
         RecipeView.clearRecepie();
         renderLoader(DOMElements.recipe);
+        RecipeView.highlightSelector(ID);
         // экземпляр класса recepie
         state.recepie = new Recipe(ID);
         
@@ -87,7 +88,8 @@ const getRecepie = async () => {
             cleanLoader();
             RecipeView.renderRecepie(state.recepie);
         } catch(error) {
-            alert(`2ая ошибка recipe ${error}`);
+            // alert(`2ая ошибка recipe ${error}`);
+            console.log(error);
         }
         
     }
