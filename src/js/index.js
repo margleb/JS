@@ -3,6 +3,7 @@
 import Search from './model/Search';
 import Recipe from './model/Recipe';
 import * as SearchView from './views/SearchView';
+import * as RecipeView from './views/RecipeView';
 import {DOMElements, renderLoader, cleanLoader} from './views/base';
 
 // обьект состояния
@@ -65,6 +66,9 @@ DOMElements.resPages.addEventListener('click', (event) => {
 const getRecepie = async () => {
     const ID = window.location.hash.replace('#', '');
     if(ID) {
+        // Подготавливаем UI
+        RecipeView.clearRecepie();
+        renderLoader(DOMElements.recipe);
         // экземпляр класса recepie
         state.recepie = new Recipe(ID);
         
@@ -79,7 +83,9 @@ const getRecepie = async () => {
             state.recepie.calcTime();
             state.recepie.calcServings();
             // рендерим recepie
-            console.log(state.recepie);
+            // console.log(state.recepie);
+            cleanLoader();
+            RecipeView.renderRecepie(state.recepie);
         } catch(error) {
             alert(`2ая ошибка recipe ${error}`);
         }
@@ -87,5 +93,5 @@ const getRecepie = async () => {
     }
 }
 
-// ['hashchange'].forEeach((event) => window.addEventListener(event, getRecepie));
-window.addEventListener('hashchange', getRecepie);
+['hashchange', 'load'].forEach((event) => window.addEventListener(event, getRecepie));
+// window.addEventListener('hashchange', getRecepie);

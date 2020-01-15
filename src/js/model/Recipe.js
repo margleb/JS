@@ -43,7 +43,7 @@ export default class Recipe {
         this.title = recipe.data.recipe.title;
         this.author = recipe.data.recipe.publisher;
         this.url = recipe.data.recipe.source_url;
-        this.img = recipe.data.recipe.publisher_url;
+        this.img = recipe.data.recipe.image_url;
         this.ingredients = recipe.data.recipe.ingredients;
       } catch(error) {
         alert(`1ая ошибка recipe ${error}`);
@@ -62,6 +62,7 @@ export default class Recipe {
     const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
     // короткие названия
     const unitsShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
+    const units = [...unitsShort, 'g', 'kg'];
     
     const newIngredients = this.ingredients.map(el => {
         
@@ -72,14 +73,14 @@ export default class Recipe {
         });
         
         // 2. Убираем скобки из названия игридиентов
-        ingredient.replace(/ *\([^)]*\) */g, '');
+        ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');
         
         // TESTING
         // return ingredient;
         
         // 3. Разделяем ингридиенты на единицы измерения и ингридиенты
         const arrIng = ingredient.split(' ');
-        const unitIndex = arrIng.findIndex(el2 => unitsShort.includes(el2));
+        const unitIndex = arrIng.findIndex(el2 => units.includes(el2));
         
         let objIng;
         
@@ -120,7 +121,7 @@ export default class Recipe {
             }
         }
         
-        return objIng;
+         return objIng;
         
     }); 
        
