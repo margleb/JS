@@ -3,6 +3,7 @@
 import Search from './model/Search';
 import Recipe from './model/Recipe';
 import List from './model/List';
+import Likes from './model/Likes';
 import * as SearchView from './views/SearchView';
 import * as RecipeView from './views/RecipeView';
 import * as listView from './views/listView';
@@ -106,26 +107,6 @@ const getRecepie = async () => {
 * LIST CONTROLLER
 **/
 
-/***
-1. Добавляем Event событие при нажатии на кнопки, используем matches() функцию
-   - .recipe_btn--add, .recipe_btn--add *'
-   - вызваем метод conrolList();
-2. Создаем controlList функцию
-   - если в state нет обьекта list, то создаем новый экз. класса Liast
-   - для каждого ingredients в массиве recipe
-     - вызываем метод addItem с передачей аргументов // модель list
-     - вызваем метод renderItem // listView
-3. Создаем событие удаления и обновления списка
-   - получаем уникальный id (itemid) из эл. shopping__item (метод closest)
-   - если была нажата кнопка shopping__delete (метод matches), то:
-     - удаляем из обьекта list элемент
-     - удаляем из UI
-   - если была кнопка кол-ва ингридиентов .shopping__count-value
-     - получение значение из элемента и заносим в переменную 
-     - вызываем функцию обновления updateCount()
-***/
-
-
 const controlList = () => {
   // Create a new list if there in none yet
   if (!state.list) state.list = new List();
@@ -157,6 +138,55 @@ DOMElements.shopping.addEventListener('click', e => {
    }
 });
 
+
+/**
+* LIKE CONTROLLER
+**/
+
+/***
+1. Создаем событие при нажатии на .recipe__love button
+2. Cоздаем контроллер controlLike
+   - создаем экземпляр только, его его нет
+   - ecли пользователь еще не не лайкну ланный рецепт
+     - добавить лайк к текущему state
+   - если пользователь уже лайкнул текущий рецепт
+     - удаляем лайк
+***/
+
+const controlLike = () => {
+    // создаем экземпляр только, если его нет
+    if (!state.likes) state.likes = new Likes();
+    const currentID = state.recepie.id
+    
+    // User has NOT yet liked current recipe
+    if(!state.likes.isLiked(currentID)) {
+      // Add like to the state
+      const newLike = state.likes.addLike(
+         currentID,
+         state.recepie.title,
+         state.recepie.author,
+         state.recepie.img
+      );
+      // Toggle the like button
+        
+      // Add like to UI list
+      console.log(state.likes);
+        
+    // User HAS liked current recipe    
+    } else {
+        // Remove like from the state
+        state.likes.deleteLike(currentID);
+        
+        // Toggle the like button
+        
+        // Remove like from UI list
+         console.log(state.likes);
+    }
+    
+    
+}
+
+
 // Handling recipe button clicks
 DOMElements.recipe.addEventListener('click', e => {
    if(e.target.matches('.btn-decrease, .btn-decrease *')) {
@@ -170,7 +200,11 @@ DOMElements.recipe.addEventListener('click', e => {
        state.recepie.updateServings('inc');
        RecipeView.updateServingsIngredients(state.recepie);
    } else if (e.target.matches('.recipe_btn--add, .recipe_btn--add *')) {
+       // Add ingredients to shopping list
        controlList();
+   } else if (e.target.matches('.recipe__love, .recipe__love *')) {
+       // Like controller
+       controlLike();
    }
    // console.log(state.recepie);
 });
