@@ -8,7 +8,7 @@ export const getInput = () => DOMElements.inputField.value;
 export const clearInput = () => DOMElements.inputField.value = '';
 
 // функция лимитированного тайтла рецепта
-const titlelimit = (title, limit = 17) => {
+export const titlelimit = (title, limit = 17) => {
     var newArr = [];
     if(title.length > limit) {
         

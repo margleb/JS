@@ -7,6 +7,7 @@ import Likes from './model/Likes';
 import * as SearchView from './views/SearchView';
 import * as RecipeView from './views/RecipeView';
 import * as listView from './views/listView';
+import * as likesView from './views/likesView';
 import {DOMElements, renderLoader, cleanLoader} from './views/base';
 
 // обьект состояния
@@ -91,7 +92,10 @@ const getRecepie = async () => {
             // рендерим recepie
             // console.log(state.recepie);
             cleanLoader();
-            RecipeView.renderRecepie(state.recepie);
+            RecipeView.renderRecepie(
+                state.recepie,
+                state.likes.isLiked(ID)
+            );
         } catch(error) {
             // alert(`2ая ошибка recipe ${error}`);
             console.log(error);
@@ -143,15 +147,9 @@ DOMElements.shopping.addEventListener('click', e => {
 * LIKE CONTROLLER
 **/
 
-/***
-1. Создаем событие при нажатии на .recipe__love button
-2. Cоздаем контроллер controlLike
-   - создаем экземпляр только, его его нет
-   - ecли пользователь еще не не лайкну ланный рецепт
-     - добавить лайк к текущему state
-   - если пользователь уже лайкнул текущий рецепт
-     - удаляем лайк
-***/
+// TESTING
+state.likes = new Likes();
+likesView.toggleLikeMenu(state.likes.getNumLikes());
 
 const controlLike = () => {
     // создаем экземпляр только, если его нет
@@ -168,9 +166,10 @@ const controlLike = () => {
          state.recepie.img
       );
       // Toggle the like button
+      likesView.toggleLikeBtn(true);
         
       // Add like to UI list
-      console.log(state.likes);
+      likesView.renderLike(newLike);
         
     // User HAS liked current recipe    
     } else {
@@ -178,12 +177,13 @@ const controlLike = () => {
         state.likes.deleteLike(currentID);
         
         // Toggle the like button
+        likesView.toggleLikeBtn(false);
         
         // Remove like from UI list
-         console.log(state.likes);
+        likesView.deleteLike(currentID);
     }
-    
-    
+    // список понравивщихся рецептов в правом верхнем углу
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
 }
 
 
