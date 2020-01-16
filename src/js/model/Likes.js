@@ -1,14 +1,10 @@
 /***
-1. Cоздаем класс Likes
-  - в конструкторе создаем мессив likes
-  - метод addlike(), передающий аргументы id, title, author, img
-    - cоздает обьект и помещает в массив likes
-  - метод deleteLike
-    - находит элемент findIndex и удалет его из likes, методом splice
-  - метод isLiked
-    - возращет true/false есть ли лайк или нет (findIndex())
-  - метод getNumLikes()
-    - возращает кол-во лаков в массиве likes
+1. Создаем метод сохранения в localStorage массив likes
+   - конвертируем в json
+2. Cоздаем метод readStorage()
+   - получает из storage значение likes и конвертирует его образтно из JSON
+   - создаем проверку на наличие likes d localStorage и восстанавливаем их в this.likes
+3. Cоздаем в контроллере слушатель события 'load'
 ***/
 
 export default class Likes {
@@ -19,11 +15,18 @@ export default class Likes {
     addLike(id, title, author, img) {
         const like = { id, title, author, img };
         this.likes.push(like);
+        
+        // Persist data in localStorage
+        this.persistData();
+        
         return like
     }
     deleteLike(id) {
         const index = this.likes.findIndex(el => el.id == id);
         this.likes.splice(index, 1);
+        
+        // Persist data in localStorage
+        this.persistData(); 
     }
     
     isLiked(id) {
@@ -33,4 +36,14 @@ export default class Likes {
     getNumLikes() {
         return this.likes.length
     }
+    
+    persistData() {
+        localStorage.setItem('likes', JSON.stringify(this.likes))
+    }
+    readStorage() {
+        const storage = JSON.parse(localStorage.getItem('likes'));
+        // Restoring likes from the localStorage
+        if (storage) this.likes = storage;
+    }
+    
 }
