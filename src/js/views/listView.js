@@ -1,9 +1,3 @@
-/***
-1. Заносим .shopping в base.js и импортируем его
-2. Создаем renerItem() функцию с html и импортором в HTML
-3. Cоздаем deleteItem функцию c выбором элемента на странице и его удаления (removeChild)
-***/
-
 import {DOMElements} from './base';
 
 
@@ -23,11 +17,11 @@ export const renderItem = item => {
                 </li>
 `;
 
-  elements.shopping.insertAdjacentHTML('beforeend', markup);    
+  DOMElements.shopping.insertAdjacentHTML('beforeend', markup);    
     
 };
 
 export const deleteItem = id => {
-    const item = document.querySelector(`data-itemid=${id}`);
-    item.parentElement.removeChild(item);
+    const item = document.querySelector(`[data-itemid="${id}"]`);
+    if (item) item.parentElement.removeChild(item);
 };

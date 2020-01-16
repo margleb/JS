@@ -5,10 +5,13 @@ import Recipe from './model/Recipe';
 import List from './model/List';
 import * as SearchView from './views/SearchView';
 import * as RecipeView from './views/RecipeView';
+import * as listView from './views/listView';
 import {DOMElements, renderLoader, cleanLoader} from './views/base';
 
 // обьект состояния
 const state = {}
+// TESTING
+window.state = state;
 
 // SEARCH CONTROLLER
 
@@ -99,6 +102,61 @@ const getRecepie = async () => {
 ['hashchange', 'load'].forEach((event) => window.addEventListener(event, getRecepie));
 
 
+/**
+* LIST CONTROLLER
+**/
+
+/***
+1. Добавляем Event событие при нажатии на кнопки, используем matches() функцию
+   - .recipe_btn--add, .recipe_btn--add *'
+   - вызваем метод conrolList();
+2. Создаем controlList функцию
+   - если в state нет обьекта list, то создаем новый экз. класса Liast
+   - для каждого ingredients в массиве recipe
+     - вызываем метод addItem с передачей аргументов // модель list
+     - вызваем метод renderItem // listView
+3. Создаем событие удаления и обновления списка
+   - получаем уникальный id (itemid) из эл. shopping__item (метод closest)
+   - если была нажата кнопка shopping__delete (метод matches), то:
+     - удаляем из обьекта list элемент
+     - удаляем из UI
+   - если была кнопка кол-ва ингридиентов .shopping__count-value
+     - получение значение из элемента и заносим в переменную 
+     - вызываем функцию обновления updateCount()
+***/
+
+
+const controlList = () => {
+  // Create a new list if there in none yet
+  if (!state.list) state.list = new List();
+
+  // Add each ingredient to the list and UI
+  state.recepie.ingredients.forEach(el => {
+     const item = state.list.addItem(el.count, el.unit, el.ingredient);
+     listView.renderItem(item);
+  });
+    
+}
+
+// Нandle delete and update list item events
+DOMElements.shopping.addEventListener('click', e => {
+   const id = e.target.closest('.shopping__item').dataset.itemid;
+   // Handle the delete button
+   if (e.target.matches('.shopping__delete, .shopping__delete *')) {
+       // Delete from state
+       state.list.deleteItem(id);
+       // Delete from UI
+       listView.deleteItem(id);
+       
+   // Handle the count update
+   } else if (e.target.matches('.shopping__count-value')) {
+       // считываем значение
+       const val = parseFloat(e.target.value, 10);
+       // обновляем
+       state.list.updateCount(id, val);
+   }
+});
+
 // Handling recipe button clicks
 DOMElements.recipe.addEventListener('click', e => {
    if(e.target.matches('.btn-decrease, .btn-decrease *')) {
@@ -111,6 +169,8 @@ DOMElements.recipe.addEventListener('click', e => {
        // Increase button is clicked
        state.recepie.updateServings('inc');
        RecipeView.updateServingsIngredients(state.recepie);
+   } else if (e.target.matches('.recipe_btn--add, .recipe_btn--add *')) {
+       controlList();
    }
    // console.log(state.recepie);
 });
