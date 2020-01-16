@@ -1,31 +1,3 @@
-/***
-- устанавливаем библиотеку fraction.js npm i fractional --save
-  - https://github.com/infusion/Fraction.js
-- создаем функцию formatCount
-  - если мы имеем count
-    - c помочью деструктора [inc, dec] опр. 2 переменных
-      - конвертируем count в строку (toString()) и разделяем (split()) точкой
-      - используем map и parseInt для конвертации в номер
-    - если нет десятичных(dec), возращаешьм count
-    - если целое число (int) равно 0
-      - исп.библиотку fraction (new Fraction(count))
-      - return `${fr.numerator}/${fr.denominator}` // 1/2 = 0.5
-    - иначе 
-      - исп.библиотку fraction (new Fraction(count - int))
-      - return `${int} ${fr.numerator}/${fr.denominator}`
-  - возращем '?'
-
-- создаем функцию highlightSelector (подсветка выд. рецепта)
-  - с помочью Array.from выбираем все results__link
-    - c помочью forEach удаляем класс classList.remove(results_link--active)
-  - document.querySelector(`a[href*="#${id}"]`).classList.add('results_link--active')
-  
-- в контроллере добавляем в UI вызов функции
-  if(state.search) searchView.highlightSelector(id);
-
-***/
-
-
 import { Fraction } from 'fractional';
 import {DOMElements} from './base';
 
@@ -104,12 +76,12 @@ let markup = `
       <span class="recipe__info-data recipe__info-data--people">${recepie.servings}</span>
       <span class="recipe__info-text"> servings</span>
       <div class="recipe__info-buttons">
-         <button class="btn-tiny">
+         <button class="btn-tiny btn-decrease">
             <svg>
                <use href="img/icons.svg#icon-circle-with-minus"></use>
             </svg>
          </button>
-         <button class="btn-tiny">
+         <button class="btn-tiny btn-increase">
             <svg>
                <use href="img/icons.svg#icon-circle-with-plus"></use>
             </svg>
@@ -148,4 +120,15 @@ let markup = `
 </div>`;
     
 DOMElements.recipe.insertAdjacentHTML('beforeend', markup);
+}
+
+
+export const updateServingsIngredients = recepie => {
+    // Update servings
+    document.querySelector('.recipe__info-data--people').textContent = recepie.servings;
+    // Update ingredients
+    const countElements = Array.from(document.querySelectorAll('.recipe__count'));
+    countElements.forEach((el, i) => {
+        el.textContent = formatCount(recepie.ingredients[i].count)
+    });
 }

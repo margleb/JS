@@ -74,7 +74,7 @@ const getRecepie = async () => {
         state.recepie = new Recipe(ID);
         
         // TESTING
-        // window.r = state.recepie;
+        window.r = state.recepie;
         
         try {
             // получаем по API рецепт и парсим ингридиенты
@@ -96,4 +96,20 @@ const getRecepie = async () => {
 }
 
 ['hashchange', 'load'].forEach((event) => window.addEventListener(event, getRecepie));
-// window.addEventListener('hashchange', getRecepie);
+
+
+// Handling recipe button clicks
+DOMElements.recipe.addEventListener('click', e => {
+   if(e.target.matches('.btn-decrease, .btn-decrease *')) {
+       // Decrease button is clicked
+       if (state.recepie.servings > 1) {
+         state.recepie.updateServings('dec');
+         RecipeView.updateServingsIngredients(state.recepie);
+       }
+   } else if (e.target.matches('.btn-increase, .btn-increase *')) {
+       // Increase button is clicked
+       state.recepie.updateServings('inc');
+       RecipeView.updateServingsIngredients(state.recepie);
+   }
+   // console.log(state.recepie);
+});
