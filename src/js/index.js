@@ -2,6 +2,7 @@
 
 import Search from './model/Search';
 import Recipe from './model/Recipe';
+import List from './model/List';
 import * as SearchView from './views/SearchView';
 import * as RecipeView from './views/RecipeView';
 import {DOMElements, renderLoader, cleanLoader} from './views/base';
@@ -74,7 +75,7 @@ const getRecepie = async () => {
         state.recepie = new Recipe(ID);
         
         // TESTING
-        window.r = state.recepie;
+        // window.r = state.recepie;
         
         try {
             // получаем по API рецепт и парсим ингридиенты
@@ -113,3 +114,6 @@ DOMElements.recipe.addEventListener('click', e => {
    }
    // console.log(state.recepie);
 });
+
+// TESTING
+window.l = new List();
